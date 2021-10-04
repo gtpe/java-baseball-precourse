@@ -38,6 +38,50 @@ public class ApplicationTest extends NSTest {
         }
     }
 
+    @Test
+    void 입력값에_0이_있는_경우() {
+        try (final MockedStatic<Randoms> mockRandoms = mockStatic(Randoms.class)) {
+            mockRandoms
+                    .when(() -> Randoms.pickNumberInRange(anyInt(), anyInt()))
+                    .thenReturn(2, 6, 3);
+            running("901");
+            verify("[ERROR]");
+        }
+    }
+
+    @Test
+    void 입력값에_중복되는_수가_있는_경우() {
+        try (final MockedStatic<Randoms> mockRandoms = mockStatic(Randoms.class)) {
+            mockRandoms
+                    .when(() -> Randoms.pickNumberInRange(anyInt(), anyInt()))
+                    .thenReturn(1, 8, 9);
+            running("565");
+            verify("[ERROR]");
+        }
+    }
+
+    @Test
+    void 입력값이_숫자_3개를_초과한_경우() {
+        try (final MockedStatic<Randoms> mockRandoms = mockStatic(Randoms.class)) {
+            mockRandoms
+                    .when(() -> Randoms.pickNumberInRange(anyInt(), anyInt()))
+                    .thenReturn(7, 2, 1);
+            running("9821");
+            verify("[ERROR]");
+        }
+    }
+
+    @Test
+    void 입력값이_숫자가_아닌_경우() {
+        try (final MockedStatic<Randoms> mockRandoms = mockStatic(Randoms.class)) {
+            mockRandoms
+                    .when(() -> Randoms.pickNumberInRange(anyInt(), anyInt()))
+                    .thenReturn(2, 8, 3);
+            running("이팔삼");
+            verify("[ERROR]");
+        }
+    }
+
     @AfterEach
     void tearDown() {
         outputStandard();
