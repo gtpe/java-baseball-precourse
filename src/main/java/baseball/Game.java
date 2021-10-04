@@ -37,6 +37,24 @@ public class Game {
     }
 
     /**
+     * 게임 진행 여부 반환
+     */
+    public boolean isPlaying() {
+        if(strikeCount < numberSize) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 스트라이크 카운트, 볼 카운트 초기화
+     */
+    private void initCount() {
+        this.strikeCount = 0;
+        this.ballCount = 0;
+    }
+
+    /**
      * 입력값에 대한 스트라이크, 볼 카운트 계산
      */
     private void calculate(int[] inputArray) {
@@ -55,6 +73,7 @@ public class Game {
      * 게임 결과 반환
      */
     public String play(int[] inputArray) {
+        initCount();
         calculate(inputArray);
         return ResultMessage.getMessage(strikeCount, ballCount);
     }
