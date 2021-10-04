@@ -9,6 +9,8 @@ public class Game {
     static final int START_NUMBER = 1; // 숫자 범위 중 가장 작은 숫자
     static final int END_NUMBER = 9; // 숫자 범위 중 가장 큰 숫자
     private int numberSize; // 숫자 길이
+    private int strikeCount; // 스트라이크 카운트
+    private int ballCount; // 볼 카운트
     private HashMap<Integer, Integer> randomMap; // 랜덤 숫자
 
     /**
@@ -32,6 +34,29 @@ public class Game {
                 count++;
             }
         }
+    }
+
+    /**
+     * 입력값에 대한 스트라이크, 볼 카운트 계산
+     */
+    private void calculate(int[] inputArray) {
+        for (int i = 0; i < inputArray.length; i++) {
+            if (randomMap.containsKey(inputArray[i])) {
+                ballCount++;
+                if (randomMap.get(inputArray[i]) == i) {
+                    strikeCount++;
+                    ballCount--;
+                }
+            }
+        }
+    }
+
+    /**
+     * 게임 결과 반환
+     */
+    public String play(int[] inputArray) {
+        calculate(inputArray);
+        return ResultMessage.getMessage(strikeCount, ballCount);
     }
 
 }
